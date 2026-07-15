@@ -10,6 +10,16 @@ Can conditional generative time-series models forecast household energy profiles
 
 The data contains household electricity readings in kWh, sampled every 30 minutes over roughly one year, with static household/location covariates and time-varying covariates. Each experiment resamples the data to a selected frequency, builds fixed-length windows, trains a model, then evaluates predicted/generated future kWh windows against held-out validation households.
 
+## Data And Prediction Target
+
+The dataset used in these notebooks is household electricity consumption data. Each household/customer has a chronological kWh meter reading every 30 minutes across approximately one year. Each row also contains covariates that describe the household, location, weather/environment, and calendar/time context.
+
+The prediction target is future household electricity usage in kWh. In practical terms, the models are being trained to predict or generate an individual household's future consumption profile over a selected horizon, such as the next `24h`, `7d`, or `28d`.
+
+The "customer" or "household" in the notebooks refers to one individual meter/customer identifier in the dataset. Training and validation are split by customer, meaning validation results are measured on households that were not used for training. This makes the validation task closer to the intended future use case: given information about a household and its conditions, estimate that household's likely future energy profile.
+
+The intended end user of this type of model would be a household owner, home buyer, planner, or energy analyst who wants a realistic forecast of household electricity demand. The context-forecasting setting assumes recent historical kWh readings are available. The no-context generative setting tests the harder case where historical kWh readings are not available and the model must rely on household/static information plus known time/weather covariates.
+
 The key controls are:
 
 - `FREQ`: temporal resolution of the data, such as `30min`, `1H`, `2H`, or `3H`.
